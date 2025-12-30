@@ -1,0 +1,13 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    petstore-oas:
+        inputs:
+            - location: openapi.yaml
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/truefoundry-uos/test/petstore-oas
+targets:
+    petstore:
+        target: mcp-typescript
+        source: petstore-oas
