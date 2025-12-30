@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Next.js
+.next
+out
+
+# Build files
+*.log
+.DS_Store
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Environment files (keep .env.example if you have one)
+.env
+.env.local
+.env.development
+.env.production
+
+# Test files
+coverage
+.nyc_output
+
+# Misc
+README.md
+*.md
+!openapi*.json
+
