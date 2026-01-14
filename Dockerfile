@@ -35,12 +35,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Copy OpenAPI spec files
-COPY --from=builder /app/openapi1.json ./
-COPY --from=builder /app/openapi2.json ./
-COPY --from=builder /app/openapi.json ./
-COPY --from=builder /app/calculator-basic.json ./
-COPY --from=builder /app/calculator-oauth.json ./
+# Copy all OpenAPI spec files
+COPY --from=builder /app/*.json ./
 
 # Set correct permissions
 RUN chown -R nextjs:nodejs /app
