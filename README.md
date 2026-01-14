@@ -14,11 +14,94 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:8000](http://localhost:8000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Set the following environment variables before running:
+
+```bash
+# Required for Calculator Basic API (Bearer token auth)
+export CALCULATOR_BEARER_TOKEN=your-secret-token
+```
+
+## OpenAPI Specifications
+
+This server hosts multiple OpenAPI specifications:
+
+| Spec Name | File | Endpoint | Description |
+|-----------|------|----------|-------------|
+| OpenAPI 1 | `openapi1.json` | `/api/openapi/openapi1` | User API v1 |
+| OpenAPI 2 | `openapi2.json` | `/api/openapi/openapi2` | User API v2 |
+| Calculator Basic | `calculator-basic.json` | `/api/openapi/calculator-basic` | Add/Subtract with Bearer auth |
+| Calculator OAuth | `calculator-oauth.json` | `/api/openapi/calculator-oauth` | Multiply with OAuth |
+
+### List All Available Specs
+
+```bash
+curl http://localhost:3000/api/openapi
+```
+
+### Get a Specific Spec
+
+```bash
+curl http://localhost:3000/api/openapi/calculator-basic
+```
+
+## Calculator APIs
+
+### Calculator Basic (Bearer Token Authentication)
+
+Requires `Authorization: Bearer <token>` header where token matches `CALCULATOR_BEARER_TOKEN` env var.
+
+**Add two numbers:**
+
+```bash
+curl -X POST http://localhost:3000/api/calculator-basic/add \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-secret-token" \
+  -d '{"a": 10, "b": 5}'
+```
+
+Response: `{"result": 15}`
+
+**Subtract two numbers:**
+
+```bash
+curl -X POST http://localhost:3000/api/calculator-basic/subtract \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-secret-token" \
+  -d '{"a": 10, "b": 3}'
+```
+
+Response: `{"result": 7}`
+
+### Calculator OAuth (OAuth 2.0 Authentication)
+
+Requires `Authorization: Bearer <oauth-token>` header with a valid OAuth token (minimum 10 characters for demo).
+
+**Multiply two numbers:**
+
+```bash
+curl -X POST http://localhost:3000/api/calculator-oauth/multiply \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-oauth-token-here" \
+  -d '{"a": 6, "b": 7}'
+```
+
+Response: `{"result": 42}`
+
+## Docker Deployment
+
+Build and run with Docker:
+
+```bash
+# Build the image
+docker build -t mcp-poc-app .
+
+# Run the container
+docker run -p 3000:3000 -e CALCULATOR_BEARER_TOKEN=your-secret-token mcp-poc-app
+```
 
 ## Learn More
 
