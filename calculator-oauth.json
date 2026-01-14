@@ -1,0 +1,99 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Calculator OAuth API",
+    "description": "Calculator API with multiply operation secured by OAuth 2.0",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.calculator-oauth.example.com",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": ["calculator:read", "calculator:write"]
+    }
+  ],
+  "paths": {
+    "/multiply": {
+      "post": {
+        "summary": "Multiply two numbers",
+        "operationId": "multiplyNumbers",
+        "description": "Returns the product of two numbers",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First number"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second number"
+                  }
+                },
+                "required": ["a", "b"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The product of a and b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing OAuth token"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient scope"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.calculator-oauth.example.com/oauth/authorize",
+            "tokenUrl": "https://auth.calculator-oauth.example.com/oauth/token",
+            "scopes": {
+              "calculator:read": "Read access to calculator operations",
+              "calculator:write": "Write access to calculator operations"
+            }
+          },
+          "clientCredentials": {
+            "tokenUrl": "https://auth.calculator-oauth.example.com/oauth/token",
+            "scopes": {
+              "calculator:read": "Read access to calculator operations",
+              "calculator:write": "Write access to calculator operations"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
