@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "https://api.calculator-oauth.example.com",
-      "description": "Production server"
+      "url": "/api/calculator-oauth",
+      "description": "Local server"
     }
   ],
   "security": [
