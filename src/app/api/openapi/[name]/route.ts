@@ -29,26 +29,49 @@ export async function GET(
     const ymlPath = path.join(process.cwd(), `${name}.yml`);
     const noExtPath = path.join(process.cwd(), name);
     
-    let spec;
-    
     // Try JSON file
     try {
       const jsonContent = await fs.readFile(jsonPath, 'utf-8');
-      spec = JSON.parse(jsonContent);
+      const spec = JSON.parse(jsonContent);
+      return NextResponse.json(spec, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+      });
     } catch (jsonError) {
-      // Try YAML files
+      // Try YAML files - return as raw YAML
       try {
         const yamlContent = await fs.readFile(yamlPath, 'utf-8');
-        spec = yaml.load(yamlContent);
+        return new NextResponse(yamlContent, {
+          headers: {
+            'Content-Type': 'text/yaml',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+          },
+        });
       } catch (yamlError) {
         try {
           const ymlContent = await fs.readFile(ymlPath, 'utf-8');
-          spec = yaml.load(ymlContent);
+          return new NextResponse(ymlContent, {
+            headers: {
+              'Content-Type': 'text/yaml',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Content-Type',
+            },
+          });
         } catch (ymlError) {
-          // Try file without extension (assume YAML)
+          // Try file without extension (assume YAML) - return as raw YAML
           try {
             const noExtContent = await fs.readFile(noExtPath, 'utf-8');
-            spec = yaml.load(noExtContent);
+            return new NextResponse(noExtContent, {
+              headers: {
+                'Content-Type': 'text/yaml',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+              },
+            });
           } catch (noExtError) {
             return NextResponse.json(
               { error: `OpenAPI spec not found: ${name}.json, ${name}.yaml, ${name}.yml, or ${name}` },
@@ -58,14 +81,6 @@ export async function GET(
         }
       }
     }
-
-    return NextResponse.json(spec, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to read OpenAPI spec';
     return NextResponse.json({ error: message }, { status: 500 });
