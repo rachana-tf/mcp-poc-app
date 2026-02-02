@@ -3,9 +3,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import * as yaml from 'js-yaml';
 
 // Allowed OpenAPI spec files
-const ALLOWED_SPECS = ['openapi1', 'openapi2'];
+const ALLOWED_SPECS = ['openapi1', 'openapi2', 'openapi3'];
 
 export async function GET(
   request: NextRequest,
@@ -22,10 +23,41 @@ export async function GET(
   }
 
   try {
-    // Read and return the OpenAPI spec
-    const specPath = path.join(process.cwd(), `${name}.json`);
-    const specContent = await fs.readFile(specPath, 'utf-8');
-    const spec = JSON.parse(specContent);
+    // Try JSON first, then YAML, then file without extension
+    const jsonPath = path.join(process.cwd(), `${name}.json`);
+    const yamlPath = path.join(process.cwd(), `${name}.yaml`);
+    const ymlPath = path.join(process.cwd(), `${name}.yml`);
+    const noExtPath = path.join(process.cwd(), name);
+    
+    let spec;
+    
+    // Try JSON file
+    try {
+      const jsonContent = await fs.readFile(jsonPath, 'utf-8');
+      spec = JSON.parse(jsonContent);
+    } catch (jsonError) {
+      // Try YAML files
+      try {
+        const yamlContent = await fs.readFile(yamlPath, 'utf-8');
+        spec = yaml.load(yamlContent);
+      } catch (yamlError) {
+        try {
+          const ymlContent = await fs.readFile(ymlPath, 'utf-8');
+          spec = yaml.load(ymlContent);
+        } catch (ymlError) {
+          // Try file without extension (assume YAML)
+          try {
+            const noExtContent = await fs.readFile(noExtPath, 'utf-8');
+            spec = yaml.load(noExtContent);
+          } catch (noExtError) {
+            return NextResponse.json(
+              { error: `OpenAPI spec not found: ${name}.json, ${name}.yaml, ${name}.yml, or ${name}` },
+              { status: 404 }
+            );
+          }
+        }
+      }
+    }
 
     return NextResponse.json(spec, {
       headers: {

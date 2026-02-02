@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 const AVAILABLE_SPECS = [
   { name: 'openapi1', url: '/api/openapi/openapi1' },
   { name: 'openapi2', url: '/api/openapi/openapi2' },
+  { name: 'openapi3', url: '/api/openapi/openapi3' },
 ];
 
 export async function GET() {
