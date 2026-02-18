@@ -54,8 +54,11 @@ curl http://localhost:3000/api/openapi/calculator-basic
 
 Requires `Authorization: Bearer <token>` header where token matches `CALCULATOR_BEARER_TOKEN` env var.
 
+All endpoints support multiple HTTP methods: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, and `HEAD`.
+
 **Add two numbers:**
 
+Using POST/PUT/PATCH (with JSON body):
 ```bash
 curl -X POST http://localhost:3000/api/calculator-basic/add \
   -H "Content-Type: application/json" \
@@ -63,10 +66,24 @@ curl -X POST http://localhost:3000/api/calculator-basic/add \
   -d '{"a": 10, "b": 5}'
 ```
 
+Using GET/DELETE (with query parameters):
+```bash
+curl -X GET "http://localhost:3000/api/calculator-basic/add?a=10&b=5" \
+  -H "Authorization: Bearer your-secret-token"
+```
+
+Using HEAD (headers only):
+```bash
+curl -X HEAD "http://localhost:3000/api/calculator-basic/add?a=10&b=5" \
+  -H "Authorization: Bearer your-secret-token" \
+  -v
+```
+
 Response: `{"result": 15}`
 
 **Subtract two numbers:**
 
+Using POST/PUT/PATCH (with JSON body):
 ```bash
 curl -X POST http://localhost:3000/api/calculator-basic/subtract \
   -H "Content-Type: application/json" \
@@ -74,7 +91,38 @@ curl -X POST http://localhost:3000/api/calculator-basic/subtract \
   -d '{"a": 10, "b": 3}'
 ```
 
+Using GET/DELETE (with query parameters):
+```bash
+curl -X GET "http://localhost:3000/api/calculator-basic/subtract?a=10&b=3" \
+  -H "Authorization: Bearer your-secret-token"
+```
+
 Response: `{"result": 7}`
+
+**Update a value with an operation:**
+
+Using POST/PUT/PATCH (with JSON body):
+```bash
+curl -X PATCH http://localhost:3000/api/calculator-basic/update \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-secret-token" \
+  -d '{"value": 10, "operation": "add", "operand": 5}'
+```
+
+Using GET/DELETE (with query parameters):
+```bash
+curl -X GET "http://localhost:3000/api/calculator-basic/update?value=10&operation=add&operand=5" \
+  -H "Authorization: Bearer your-secret-token"
+```
+
+Response: `{"result": 15, "previousValue": 10, "operation": "add", "operand": 5}`
+
+Supported operations: `add`, `subtract`, `multiply`, `divide`
+
+**Note:** 
+- `GET`, `HEAD`, and `DELETE` methods use query parameters
+- `POST`, `PUT`, and `PATCH` methods use JSON request body
+- All methods require Bearer token authentication
 
 ### Calculator OAuth (OAuth 2.0 Authentication)
 

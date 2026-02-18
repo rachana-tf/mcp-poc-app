@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Calculator Basic API",
-    "description": "Calculator API with add, subtract, and update operations",
+    "description": "Calculator API with add, subtract, and update operations supporting GET, POST, PUT, PATCH, DELETE, and HEAD methods",
     "version": "1.0.0"
   },
   "servers": [
@@ -18,6 +18,55 @@
   ],
   "paths": {
     "/add": {
+      "get": {
+        "summary": "Add two numbers (GET)",
+        "operationId": "addNumbersGet",
+        "description": "Returns the sum of two numbers using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The sum of a and b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
       "post": {
         "summary": "Add two numbers",
         "operationId": "addNumbers",
@@ -60,6 +109,194 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "put": {
+        "summary": "Add two numbers (PUT)",
+        "operationId": "addNumbersPut",
+        "description": "Returns the sum of two numbers",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First number"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second number"
+                  }
+                },
+                "required": ["a", "b"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The sum of a and b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Add two numbers (PATCH)",
+        "operationId": "addNumbersPatch",
+        "description": "Returns the sum of two numbers",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First number"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second number"
+                  }
+                },
+                "required": ["a", "b"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The sum of a and b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Add two numbers (DELETE)",
+        "operationId": "addNumbersDelete",
+        "description": "Returns the sum of two numbers using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The sum of a and b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "head": {
+        "summary": "Add two numbers (HEAD)",
+        "operationId": "addNumbersHead",
+        "description": "Returns headers only for the sum of two numbers using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation (headers only)"
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
           "401": {
             "description": "Unauthorized - Invalid or missing Bearer token"
           }
@@ -67,6 +304,55 @@
       }
     },
     "/subtract": {
+      "get": {
+        "summary": "Subtract two numbers (GET)",
+        "operationId": "subtractNumbersGet",
+        "description": "Returns the difference of two numbers (a - b) using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number (minuend)"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number (subtrahend)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The difference (a - b)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
       "post": {
         "summary": "Subtract two numbers",
         "operationId": "subtractNumbers",
@@ -109,6 +395,194 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "put": {
+        "summary": "Subtract two numbers (PUT)",
+        "operationId": "subtractNumbersPut",
+        "description": "Returns the difference of two numbers (a - b)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First number (minuend)"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second number (subtrahend)"
+                  }
+                },
+                "required": ["a", "b"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The difference (a - b)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Subtract two numbers (PATCH)",
+        "operationId": "subtractNumbersPatch",
+        "description": "Returns the difference of two numbers (a - b)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First number (minuend)"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second number (subtrahend)"
+                  }
+                },
+                "required": ["a", "b"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The difference (a - b)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Subtract two numbers (DELETE)",
+        "operationId": "subtractNumbersDelete",
+        "description": "Returns the difference of two numbers (a - b) using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number (minuend)"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number (subtrahend)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The difference (a - b)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "head": {
+        "summary": "Subtract two numbers (HEAD)",
+        "operationId": "subtractNumbersHead",
+        "description": "Returns headers only for the difference of two numbers using query parameters",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "First number (minuend)"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Second number (subtrahend)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation (headers only)"
+          },
+          "400": {
+            "description": "Bad request - Invalid parameters"
+          },
           "401": {
             "description": "Unauthorized - Invalid or missing Bearer token"
           }
@@ -116,6 +590,224 @@
       }
     },
     "/update": {
+      "get": {
+        "summary": "Update a value with an operation (GET)",
+        "operationId": "updateValueGet",
+        "description": "Performs an operation on a value with an operand using query parameters",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The base value to perform the operation on"
+          },
+          {
+            "name": "operation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["add", "subtract", "multiply", "divide"]
+            },
+            "description": "The operation to perform"
+          },
+          {
+            "name": "operand",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The number to use in the operation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The result of the operation"
+                    },
+                    "previousValue": {
+                      "type": "number",
+                      "description": "The original value before the operation"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "The operation that was performed"
+                    },
+                    "operand": {
+                      "type": "number",
+                      "description": "The operand that was used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "post": {
+        "summary": "Update a value with an operation (POST)",
+        "operationId": "updateValuePost",
+        "description": "Performs an operation (add, subtract, multiply, divide) on a value with an operand and returns the result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "description": "The base value to perform the operation on"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "enum": ["add", "subtract", "multiply", "divide"],
+                    "description": "The operation to perform"
+                  },
+                  "operand": {
+                    "type": "number",
+                    "description": "The number to use in the operation"
+                  }
+                },
+                "required": ["value", "operation", "operand"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The result of the operation"
+                    },
+                    "previousValue": {
+                      "type": "number",
+                      "description": "The original value before the operation"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "The operation that was performed"
+                    },
+                    "operand": {
+                      "type": "number",
+                      "description": "The operand that was used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a value with an operation (PUT)",
+        "operationId": "updateValuePut",
+        "description": "Performs an operation (add, subtract, multiply, divide) on a value with an operand and returns the result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "description": "The base value to perform the operation on"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "enum": ["add", "subtract", "multiply", "divide"],
+                    "description": "The operation to perform"
+                  },
+                  "operand": {
+                    "type": "number",
+                    "description": "The number to use in the operation"
+                  }
+                },
+                "required": ["value", "operation", "operand"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The result of the operation"
+                    },
+                    "previousValue": {
+                      "type": "number",
+                      "description": "The original value before the operation"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "The operation that was performed"
+                    },
+                    "operand": {
+                      "type": "number",
+                      "description": "The operand that was used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
       "patch": {
         "summary": "Update a value with an operation",
         "operationId": "updateValue",
@@ -195,6 +887,123 @@
             "description": "Unauthorized - Invalid or missing Bearer token"
           }
         }
+      },
+      "delete": {
+        "summary": "Update a value with an operation (DELETE)",
+        "operationId": "updateValueDelete",
+        "description": "Performs an operation on a value with an operand using query parameters",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The base value to perform the operation on"
+          },
+          {
+            "name": "operation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["add", "subtract", "multiply", "divide"]
+            },
+            "description": "The operation to perform"
+          },
+          {
+            "name": "operand",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The number to use in the operation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The result of the operation"
+                    },
+                    "previousValue": {
+                      "type": "number",
+                      "description": "The original value before the operation"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "The operation that was performed"
+                    },
+                    "operand": {
+                      "type": "number",
+                      "description": "The operand that was used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      },
+      "head": {
+        "summary": "Update a value with an operation (HEAD)",
+        "operationId": "updateValueHead",
+        "description": "Returns headers only for the operation result using query parameters",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The base value to perform the operation on"
+          },
+          {
+            "name": "operation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["add", "subtract", "multiply", "divide"]
+            },
+            "description": "The operation to perform"
+          },
+          {
+            "name": "operand",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "The number to use in the operation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation (headers only)"
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
       }
     }
   },
@@ -209,4 +1018,3 @@
     }
   }
 }
-

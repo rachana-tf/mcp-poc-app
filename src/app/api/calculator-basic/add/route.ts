@@ -21,7 +21,7 @@ function validateBearer(request: NextRequest): boolean {
   return token === validToken;
 }
 
-export async function POST(request: NextRequest) {
+async function handleAdd(request: NextRequest) {
   // Validate Bearer token
   if (!validateBearer(request)) {
     return NextResponse.json(
@@ -31,12 +31,32 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
-    const { a, b } = body;
+    // Get parameters from query (for GET/HEAD/DELETE) or body (for POST/PUT/PATCH)
+    const url = new URL(request.url);
+    let a: number, b: number;
 
-    if (typeof a !== 'number' || typeof b !== 'number') {
+    if (request.method === 'GET' || request.method === 'HEAD' || request.method === 'DELETE') {
+      const aParam = url.searchParams.get('a');
+      const bParam = url.searchParams.get('b');
+      
+      if (!aParam || !bParam) {
+        return NextResponse.json(
+          { error: 'Both a and b query parameters are required' },
+          { status: 400 }
+        );
+      }
+      
+      a = parseFloat(aParam);
+      b = parseFloat(bParam);
+    } else {
+      const body = await request.json();
+      a = body.a;
+      b = body.b;
+    }
+
+    if (typeof a !== 'number' || isNaN(a) || typeof b !== 'number' || isNaN(b)) {
       return NextResponse.json(
-        { error: 'Both a and b must be numbers' },
+        { error: 'Both a and b must be valid numbers' },
         { status: 400 }
       );
     }
@@ -54,10 +74,39 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-      { error: 'Invalid request body' },
+      { error: 'Invalid request' },
       { status: 400 }
     );
   }
+}
+
+export async function GET(request: NextRequest) {
+  return handleAdd(request);
+}
+
+export async function POST(request: NextRequest) {
+  return handleAdd(request);
+}
+
+export async function PUT(request: NextRequest) {
+  return handleAdd(request);
+}
+
+export async function PATCH(request: NextRequest) {
+  return handleAdd(request);
+}
+
+export async function DELETE(request: NextRequest) {
+  return handleAdd(request);
+}
+
+export async function HEAD(request: NextRequest) {
+  const response = await handleAdd(request);
+  // HEAD should return same headers but no body
+  return new NextResponse(null, {
+    status: response.status,
+    headers: response.headers,
+  });
 }
 
 export async function OPTIONS() {
@@ -65,7 +114,7 @@ export async function OPTIONS() {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
   });
