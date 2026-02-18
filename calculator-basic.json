@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Calculator Basic API",
-    "description": "Calculator API with add and subtract operations",
+    "description": "Calculator API with add, subtract, and update operations",
     "version": "1.0.0"
   },
   "servers": [
@@ -103,6 +103,88 @@
                     "result": {
                       "type": "number",
                       "description": "The difference (a - b)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token"
+          }
+        }
+      }
+    },
+    "/update": {
+      "patch": {
+        "summary": "Update a value with an operation",
+        "operationId": "updateValue",
+        "description": "Performs an operation (add, subtract, multiply, divide) on a value with an operand and returns the result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "description": "The base value to perform the operation on"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "enum": ["add", "subtract", "multiply", "divide"],
+                    "description": "The operation to perform"
+                  },
+                  "operand": {
+                    "type": "number",
+                    "description": "The number to use in the operation"
+                  }
+                },
+                "required": ["value", "operation", "operand"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number",
+                      "description": "The result of the operation"
+                    },
+                    "previousValue": {
+                      "type": "number",
+                      "description": "The original value before the operation"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "The operation that was performed"
+                    },
+                    "operand": {
+                      "type": "number",
+                      "description": "The operand that was used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input or division by zero",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
                     }
                   }
                 }
