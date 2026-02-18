@@ -33,7 +33,7 @@ This server hosts multiple OpenAPI specifications:
 |-----------|------|----------|-------------|
 | OpenAPI 1 | `openapi1.json` | `/api/openapi/openapi1` | User API v1 |
 | OpenAPI 2 | `openapi2.json` | `/api/openapi/openapi2` | User API v2 |
-| Calculator Basic | `calculator-basic.json` | `/api/openapi/calculator-basic` | Add/Subtract with Bearer auth |
+| Calculator Basic | `calculator-basic.json` | `/api/openapi/calculator-basic` | Add/Subtract/Update with Bearer auth |
 | Calculator OAuth | `calculator-oauth.json` | `/api/openapi/calculator-oauth` | Multiply with OAuth |
 
 ### List All Available Specs

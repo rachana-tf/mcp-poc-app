@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 
 // Allowed OpenAPI spec files
-const ALLOWED_SPECS = ['openapi1', 'openapi2', 'openapi3'];
+const ALLOWED_SPECS = ['openapi1', 'openapi2', 'openapi3', 'calculator-basic', 'calculator-oauth'];
 
 export async function GET(
   request: NextRequest,

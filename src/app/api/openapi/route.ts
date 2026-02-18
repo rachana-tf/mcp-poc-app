@@ -7,6 +7,8 @@ const AVAILABLE_SPECS = [
   { name: 'openapi1', url: '/api/openapi/openapi1' },
   { name: 'openapi2', url: '/api/openapi/openapi2' },
   { name: 'openapi3', url: '/api/openapi/openapi3' },
+  { name: 'calculator-basic', url: '/api/openapi/calculator-basic' },
+  { name: 'calculator-oauth', url: '/api/openapi/calculator-oauth' },
 ];
 
 export async function GET() {
