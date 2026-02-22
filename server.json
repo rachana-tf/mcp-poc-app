@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.example/calculator-mcp",
+  "title": "Calculator MCP",
+  "description": "MCP server exposing add, subtract, and multiply operations for calculator tools.",
+  "version": "1.0.0",
+  "websiteUrl": "https://github.com/example/calculator-mcp",
+  "repository": {
+    "url": "https://github.com/example/calculator-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@example/calculator-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

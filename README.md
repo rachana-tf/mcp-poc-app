@@ -48,6 +48,40 @@ curl http://localhost:3000/api/openapi
 curl http://localhost:3000/api/openapi/calculator-basic
 ```
 
+## MCP Registry (v0.1)
+
+MCP Registry–style APIs compatible with [Consuming Registry Data](https://modelcontextprotocol.info/tools/registry/consuming/) and [GitHub Copilot MCP registry](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry). Data is read from `registry-index.json` and `server.json` (MCP ServerDetail schema).
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v0.1/servers` | List all servers (paginated: `limit`, `cursor`, `updated_since`) |
+| `GET /v0.1/servers/{serverName}/versions/latest` | Latest version of a server |
+| `GET /v0.1/servers/{serverName}/versions/{version}` | Specific version details (full server.json) |
+
+**Note:** If `serverName` contains a slash (e.g. `io.github.example/calculator-mcp`), URL-encode it: `io.github.example%2Fcalculator-mcp`.
+
+### List all servers
+
+```bash
+curl "http://localhost:3000/v0.1/servers?limit=10"
+```
+
+### Latest version of a server
+
+```bash
+curl "http://localhost:3000/v0.1/servers/io.github.example%2Fcalculator-mcp/versions/latest"
+```
+
+### Specific version
+
+```bash
+curl "http://localhost:3000/v0.1/servers/io.github.example%2Fcalculator-mcp/versions/1.0.0"
+```
+
+### Adding servers
+
+Edit `registry-index.json` to add `{ "name": "namespace/name", "version": "x.y.z" }` entries. For each distinct server, ensure a corresponding `server.json` (or per-version file) is used by the app; the sample uses a single `server.json` at the project root for the default server.
+
 ## Calculator APIs
 
 ### Calculator Basic (Bearer Token Authentication)
