@@ -8,21 +8,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://internal.devtest.truefoundry.tech/api/llm/mcp/test21/server",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {API_KEY}",
-          "description": "API Key for TrueFoundry MCP",
-          "isSecret": true
-        }
-      ],
-      "variables": {
-        "API_KEY": {
-          "description": "API Key for TrueFoundry MCP",
-          "isSecret": true
-        }
-      }
+      "url": "https://internal.devtest.truefoundry.tech/api/llm/mcp/test21/server"
     }
   ]
 }
