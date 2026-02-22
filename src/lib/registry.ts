@@ -10,8 +10,9 @@ export interface RegistryIndex {
   entries: RegistryEntry[];
 }
 
+/** MCP Registry API: each list item is ServerResponse (server + optional _meta). */
 export interface ListServersResult {
-  servers: Array<{ name: string; version: string }>;
+  servers: Array<{ server: unknown; _meta?: Record<string, unknown> }>;
   metadata: { count: number; nextCursor?: string };
 }
 
@@ -58,9 +59,26 @@ export async function listServers(options: {
       ? `${slice[slice.length - 1].name}:${slice[slice.length - 1].version}`
       : undefined;
 
+  const servers: ListServersResult['servers'] = [];
+  for (const e of slice) {
+    const detail = await getServerVersion(encodeURIComponent(e.name), e.version);
+    if (detail != null) {
+      servers.push({
+        server: detail,
+        _meta: {
+          'io.modelcontextprotocol.registry/official': {
+            status: 'active',
+            publishedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      });
+    }
+  }
+
   return {
-    servers: slice.map((e) => ({ name: e.name, version: e.version })),
-    metadata: { count: slice.length, ...(nextCursor && { nextCursor }) },
+    servers,
+    metadata: { count: servers.length, ...(nextCursor && { nextCursor }) },
   };
 }
 
