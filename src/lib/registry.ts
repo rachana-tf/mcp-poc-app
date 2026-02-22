@@ -4,6 +4,8 @@ import * as path from 'path';
 export interface RegistryEntry {
   name: string;
   version: string;
+  /** Optional server JSON filename (default "server.json"). */
+  file?: string;
 }
 
 export interface RegistryIndex {
@@ -17,10 +19,10 @@ export interface ListServersResult {
 }
 
 const REGISTRY_INDEX_PATH = path.join(process.cwd(), 'registry-index.json');
-const SERVER_JSON_PATH = path.join(process.cwd(), 'server.json');
+const DEFAULT_SERVER_FILE = 'server.json';
 
 let cachedIndex: RegistryIndex | null = null;
-let cachedServerJson: unknown = undefined;
+const serverJsonCache = new Map<string, unknown>();
 
 async function loadIndex(): Promise<RegistryIndex> {
   if (cachedIndex) return cachedIndex;
@@ -29,11 +31,14 @@ async function loadIndex(): Promise<RegistryIndex> {
   return cachedIndex;
 }
 
-async function loadServerJson(): Promise<unknown> {
-  if (cachedServerJson !== undefined) return cachedServerJson;
-  const raw = await fs.readFile(SERVER_JSON_PATH, 'utf-8');
-  cachedServerJson = JSON.parse(raw);
-  return cachedServerJson;
+async function loadServerJsonFile(filename: string): Promise<unknown> {
+  const cached = serverJsonCache.get(filename);
+  if (cached !== undefined) return cached;
+  const filePath = path.join(process.cwd(), filename);
+  const raw = await fs.readFile(filePath, 'utf-8');
+  const parsed = JSON.parse(raw);
+  serverJsonCache.set(filename, parsed);
+  return parsed;
 }
 
 export async function listServers(options: {
@@ -99,7 +104,8 @@ export async function getServerVersion(
     (e) => e.name === decodedName && e.version === resolvedVersion
   );
   if (!entry) return null;
-  const serverJson = await loadServerJson();
+  const filename = entry.file ?? DEFAULT_SERVER_FILE;
+  const serverJson = await loadServerJsonFile(filename);
   const server = serverJson as { name?: string; version?: string };
   if (server.name !== decodedName || server.version !== resolvedVersion) {
     return { ...server, name: decodedName, version: resolvedVersion };

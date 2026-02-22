@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "tech.truefoundry/internal-mcp",
+  "title": "TrueFoundry MCP",
+  "description": "MCP server at TrueFoundry (API Key required).",
+  "version": "1.0.0",
+  "websiteUrl": "https://internal.devtest.truefoundry.tech",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://internal.devtest.truefoundry.tech/api/llm/mcp/test21/server",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {API_KEY}",
+          "description": "API Key for TrueFoundry MCP",
+          "isSecret": true
+        }
+      ],
+      "variables": {
+        "API_KEY": {
+          "description": "API Key for TrueFoundry MCP",
+          "isSecret": true
+        }
+      }
+    }
+  ]
+}
