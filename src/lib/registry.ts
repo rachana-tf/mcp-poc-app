@@ -13,8 +13,13 @@ export interface RegistryIndex {
 }
 
 /** MCP Registry API: each list item is ServerResponse (server + optional _meta). */
+export interface ServerResponse {
+  server: unknown;
+  _meta?: Record<string, unknown>;
+}
+
 export interface ListServersResult {
-  servers: Array<{ server: unknown; _meta?: Record<string, unknown> }>;
+  servers: ServerResponse[];
   metadata: { count: number; nextCursor?: string };
 }
 
@@ -39,6 +44,37 @@ async function loadServerJsonFile(filename: string): Promise<unknown> {
   const parsed = JSON.parse(raw);
   serverJsonCache.set(filename, parsed);
   return parsed;
+}
+
+/**
+ * Resolve a registry entry to a ServerResponse.
+ * The entry's file may be either:
+ * - a single server.json (bare server object), or
+ * - a registry list response ({ servers: [{ server, _meta }, ...] }), in which
+ *   case the matching server is looked up by name + version and its _meta preserved.
+ */
+async function resolveServerResponse(
+  entry: RegistryEntry
+): Promise<ServerResponse | null> {
+  const filename = entry.file ?? DEFAULT_SERVER_FILE;
+  const json = (await loadServerJsonFile(filename)) as {
+    servers?: Array<{ server?: { name?: string; version?: string }; _meta?: Record<string, unknown> }>;
+    name?: string;
+    version?: string;
+  };
+
+  if (Array.isArray(json.servers)) {
+    const match = json.servers.find(
+      (s) => s.server?.name === entry.name && s.server?.version === entry.version
+    );
+    if (!match) return null;
+    return { server: match.server, ...(match._meta && { _meta: match._meta }) };
+  }
+
+  if (json.name !== entry.name || json.version !== entry.version) {
+    return { server: { ...json, name: entry.name, version: entry.version } };
+  }
+  return { server: json };
 }
 
 export async function listServers(options: {
@@ -66,11 +102,11 @@ export async function listServers(options: {
 
   const servers: ListServersResult['servers'] = [];
   for (const e of slice) {
-    const detail = await getServerVersion(encodeURIComponent(e.name), e.version);
-    if (detail != null) {
+    const response = await resolveServerResponse(e);
+    if (response != null) {
       servers.push({
-        server: detail,
-        _meta: {
+        server: response.server,
+        _meta: response._meta ?? {
           'io.modelcontextprotocol.registry/official': {
             status: 'active',
             publishedAt: new Date().toISOString(),
@@ -85,6 +121,43 @@ export async function listServers(options: {
     servers,
     metadata: { count: servers.length, ...(nextCursor && { nextCursor }) },
   };
+}
+
+/**
+ * List all versions of a server (MCP Registry v0.1:
+ * GET /v0.1/servers/{serverName}/versions).
+ * serverName may be URL-encoded (e.g. com.example%2Fmy-server).
+ * Returns null when the server is not in the registry.
+ */
+export async function listServerVersions(
+  serverName: string
+): Promise<ListServersResult | null> {
+  const decodedName = decodeURIComponent(serverName);
+  const index = await loadIndex();
+  const entries = index.entries
+    .filter((e) => e.name === decodedName)
+    .sort((a, b) => b.version.localeCompare(a.version, undefined, { numeric: true }));
+  if (entries.length === 0) return null;
+
+  const servers: ListServersResult['servers'] = [];
+  for (const entry of entries) {
+    const response = await resolveServerResponse(entry);
+    if (response != null) {
+      servers.push({
+        server: response.server,
+        _meta: response._meta ?? {
+          'io.modelcontextprotocol.registry/official': {
+            status: 'active',
+            isLatest: entry === entries[0],
+            publishedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      });
+    }
+  }
+
+  return { servers, metadata: { count: servers.length } };
 }
 
 export async function getServerVersion(
@@ -104,11 +177,6 @@ export async function getServerVersion(
     (e) => e.name === decodedName && e.version === resolvedVersion
   );
   if (!entry) return null;
-  const filename = entry.file ?? DEFAULT_SERVER_FILE;
-  const serverJson = await loadServerJsonFile(filename);
-  const server = serverJson as { name?: string; version?: string };
-  if (server.name !== decodedName || server.version !== resolvedVersion) {
-    return { ...server, name: decodedName, version: resolvedVersion };
-  }
-  return serverJson;
+  const response = await resolveServerResponse(entry);
+  return response?.server ?? null;
 }

@@ -1,0 +1,347 @@
+{
+  "servers": [
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "https://cloudimanage.com/",
+        "name": "com.truefoundry.truefoundry/test-ci",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/test-ci/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T23:09:51.095Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T23:09:51.095Z",
+          "updatedAt": "2026-07-24T23:09:51.095Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Test virtual server with authentication",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-virtual-server-auth",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-virtual-server-auth/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:14.909Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:14.909Z",
+          "updatedAt": "2026-07-24T21:52:16.613Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Test virtual server with no authentication",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-virtual-server-no-auth",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-virtual-server-no-auth/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:13.143Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:13.143Z",
+          "updatedAt": "2026-07-24T21:52:14.711Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Linear is a project management tool",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-oauth2-dcr",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-tfy-managed-oauth2-dcr/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:11.689Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:11.689Z",
+          "updatedAt": "2026-07-24T21:52:12.998Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "GitHub is a code hosting and collaboration platform.",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-oauth2-app",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-tfy-managed-oauth2-app/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:10.921Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:10.921Z",
+          "updatedAt": "2026-07-24T21:52:11.324Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Generate architecture diagrams and documentation for unfamiliar codebases",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-no-auth",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-tfy-managed-no-auth/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:09.190Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:09.190Z",
+          "updatedAt": "2026-07-24T21:52:09.465Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "stdio based mcp server with header authentication global",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-stdio-header-global",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-stdio-header-global/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:07.443Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:07.443Z",
+          "updatedAt": "2026-07-24T21:52:07.761Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "stdio based mcp server with header authentication per user",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-stdio-header-per-user",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-stdio-header-per-user/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:06.165Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:06.165Z",
+          "updatedAt": "2026-07-24T21:52:05.969Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Test OpenAPI server with OAuth2 authorization code authentication",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-openapi-oauth2-authorization-code",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-openapi-oauth2-authorization-code/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:05.286Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:05.286Z",
+          "updatedAt": "2026-07-24T21:52:03.955Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "description": "Test OpenAPI server with header authentication global",
+        "name": "com.truefoundry.truefoundry/mcp-gw-test-openapi-header-global-all-tools",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "{mcp_proxy_base_url}/truefoundry/mcp/mcp-gw-test-openapi-header-global-all-tools/server",
+            "variables": {
+              "mcp_proxy_base_url": {
+                "description": "Base URL of the TrueFoundry MCP gateway (e.g., 'https://gateway.example.com/api/llm')",
+                "isRequired": true,
+                "choices": [
+                  "https://internal.devtest.truefoundry.tech/api/llm",
+                  "http://localhost:8787"
+                ],
+                "default": "https://internal.devtest.truefoundry.tech/api/llm"
+              }
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "truefoundry.registry/official": {
+          "isLatest": true,
+          "publishedAt": "2026-07-24T21:08:03.402Z",
+          "status": "active",
+          "statusChangedAt": "2026-07-24T21:08:03.402Z",
+          "updatedAt": "2026-07-24T21:52:02.033Z"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "count": 10
+  }
+}

@@ -1,6 +1,16 @@
 {
   "entries": [
     { "name": "io.github.example/calculator-mcp", "version": "1.0.0" },
-    { "name": "tech.truefoundry/internal-mcp", "version": "1.0.0", "file": "server-truefoundry.json" }
+    { "name": "tech.truefoundry/internal-mcp", "version": "1.0.0", "file": "server-truefoundry.json" },
+    { "name": "com.truefoundry.truefoundry/test-ci", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-virtual-server-auth", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-virtual-server-no-auth", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-oauth2-dcr", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-oauth2-app", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-tfy-managed-no-auth", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-stdio-header-global", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-stdio-header-per-user", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-openapi-oauth2-authorization-code", "version": "1.0.0", "file": "truefoundry-registry-servers.json" },
+    { "name": "com.truefoundry.truefoundry/mcp-gw-test-openapi-header-global-all-tools", "version": "1.0.0", "file": "truefoundry-registry-servers.json" }
   ]
 }

@@ -50,21 +50,34 @@ curl http://localhost:3000/api/openapi/calculator-basic
 
 ## MCP Registry (v0.1)
 
-MCP Registry–style APIs compatible with [Consuming Registry Data](https://modelcontextprotocol.info/tools/registry/consuming/) and [GitHub Copilot MCP registry](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry). Data is read from `registry-index.json` and `server.json` (MCP ServerDetail schema).
+MCP Registry–style APIs compatible with [Consuming Registry Data](https://modelcontextprotocol.info/tools/registry/consuming/) and [GitHub Copilot MCP registry](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry). Data is read from static files at the project root:
+
+- `registry-index.json` — index of all servers (name, version, and which file holds the server JSON)
+- Single-server files (e.g. `server.json`, `server-truefoundry.json`) — one MCP ServerDetail object per file
+- Collection files (e.g. `truefoundry-registry-servers.json`) — a registry list response (`{ "servers": [{ "server": ..., "_meta": ... }] }`) holding many servers in one file; the matching server is looked up by name + version and its `_meta` is preserved in API responses
 
 | Endpoint | Description |
 |----------|-------------|
 | `GET /v0.1/servers` | List all servers (paginated: `limit`, `cursor`, `updated_since`) |
+| `GET /v0.1/servers/{serverName}/versions` | List all versions of a server (newest first) |
 | `GET /v0.1/servers/{serverName}/versions/latest` | Latest version of a server |
 | `GET /v0.1/servers/{serverName}/versions/{version}` | Specific version details (full server.json) |
 
-**Note:** If `serverName` contains a slash (e.g. `io.github.example/calculator-mcp`), URL-encode it: `io.github.example%2Fcalculator-mcp`.
+**Note:** If `serverName` contains a slash (e.g. `io.github.example/calculator-mcp`), URL-encode it: `io.github.example%2Fcalculator-mcp`. Double-encoded names (e.g. `com.example%252Fmy-server`) are also accepted.
 
 ### List all servers
 
 ```bash
 curl "http://localhost:3000/v0.1/servers?limit=10"
 ```
+
+### List all versions of a server
+
+```bash
+curl "http://localhost:3000/v0.1/servers/io.github.example%2Fcalculator-mcp/versions"
+```
+
+Returns `{ "servers": [{ "server": ..., "_meta": ... }], "metadata": { "count": n } }` sorted newest version first, or a 404 if the server is not in the registry.
 
 ### Latest version of a server
 
@@ -78,9 +91,17 @@ curl "http://localhost:3000/v0.1/servers/io.github.example%2Fcalculator-mcp/vers
 curl "http://localhost:3000/v0.1/servers/io.github.example%2Fcalculator-mcp/versions/1.0.0"
 ```
 
+### TrueFoundry gateway servers
+
+`truefoundry-registry-servers.json` bundles 10 `com.truefoundry.truefoundry/*` servers (TrueFoundry MCP gateway remotes) that are indexed in `registry-index.json` and served through all of the endpoints above, e.g.:
+
+```bash
+curl "http://localhost:3000/v0.1/servers/com.truefoundry.truefoundry%2Ftest-ci/versions/latest"
+```
+
 ### Adding servers
 
-Edit `registry-index.json` to add `{ "name": "namespace/name", "version": "x.y.z" }` entries. For each distinct server, ensure a corresponding `server.json` (or per-version file) is used by the app; the sample uses a single `server.json` at the project root for the default server.
+Edit `registry-index.json` to add `{ "name": "namespace/name", "version": "x.y.z" }` entries. Each entry can optionally set `"file"` to point at its server JSON (defaults to `server.json`). The file may be either a single ServerDetail object or a collection file as described above; multiple index entries can point at the same collection file.
 
 ## Calculator APIs
 
